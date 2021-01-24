@@ -6,28 +6,23 @@ SoftwareSerial BTSerial(10,11);
 Servo myservo;
 
 void setup() {
-  Serial.begin(9600);
   BTSerial.begin(9600);
-  myservo.attach(9);
-  Serial.println("Ready");
+  myservo.attach(5);
 }
 
 void loop() {
   if(BTSerial.available()){
     char command = BTSerial.read();
-    Serial.println(command);
-    if(command == 'o'){
-      //開啟訊號，順轉伺服馬達
-      Serial.println("open");
-      myservo.write(180);
-    }
-    else if(command == 'c'){
-      //關閉訊號，逆轉伺服馬達
-      Serial.println("close");
+    //Serial.println(command);
+    if(command != 0){
+      //敲下去
+      myservo.write(150);
+      delay(500);
       myservo.write(0);
     }
-  }
-  if(Serial.available()){
-    BTSerial.write(Serial.read());
+    else {
+      //歸位
+      myservo.write(0);
+    }
   }
 }
